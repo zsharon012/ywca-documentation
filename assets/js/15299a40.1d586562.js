@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdisc_documentation=self.webpackChunkdisc_documentation||[]).push([[1152],{6155:e=>{e.exports=JSON.parse('{"name":"docusaurus-plugin-content-docs","id":"discover-program-template-project"}')}}]);
