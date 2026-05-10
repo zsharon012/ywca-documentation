@@ -3,6 +3,38 @@ id: project-structure
 sidebar_position: 4
 ---
 
+## Tech Stack
+
+The website is built using modern web technologies:
+
+- **Next.js**: React framework for production
+- **TypeScript**: Type-safe JavaScript
+- **Tailwind CSS**: Utility-first CSS framework
+- **MDX**: Markdown for content with JSX
+- **Vercel**: Hosting and deployment platform
+
+## Project Structure Overview
+
+The project follows a modular structure:
+
+```
+.
+├── app/                    # Next.js app directory
+├── components/            # Reusable components
+├── contents/             # MDX content files
+├── lib/                  # Utilities
+└── styles/              # Global styles
+```
+
+## Quick Links
+
+- 📚 [Getting Started](/installation)
+- 🏗️ [Project Overview & Quick Start](/quick-start)
+- 📝 [Content Structure](/project-structure)
+- 🚀 [Installation Guide](/installation)
+- 👥 [Contributing Guidelines](/contributing)
+
+
 # Project Structure
 
 This guide provides a detailed overview of the DISC Workshop Series Website's architecture and file organization.
