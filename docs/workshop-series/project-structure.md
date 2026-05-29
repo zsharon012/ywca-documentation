@@ -1,212 +1,144 @@
----
+﻿---
 id: project-structure
 sidebar_position: 4
 ---
 
-## Tech Stack
+# YWCA Email Tracker Project Structure
 
-The website is built using modern web technologies:
+This guide explains the repository layout, the frontend/backend architecture, and where to find the code for each feature.
 
-- **Next.js**: React framework for production
-- **TypeScript**: Type-safe JavaScript
-- **Tailwind CSS**: Utility-first CSS framework
-- **MDX**: Markdown for content with JSX
-- **Vercel**: Hosting and deployment platform
+## Repository layout
 
-## Project Structure Overview
+The YWCA project is contained in the `ywca` workspace and includes two main applications:
 
-The project follows a modular structure:
+- `ywca/ywca-frontend` — React application for the user-facing dashboard
+- `ywca/ywca-backend` — Express API server and scheduled send processor
 
-```
-.
-├── app/                    # Next.js app directory
-├── components/            # Reusable components
-├── contents/             # MDX content files
-├── lib/                  # Utilities
-└── styles/              # Global styles
-```
+## Frontend structure
 
-## Quick Links
+The frontend is built with Vite and React.
 
-- 📚 [Getting Started](/installation)
-- 🏗️ [Project Overview & Quick Start](/quick-start)
-- 📝 [Content Structure](/project-structure)
-- 🚀 [Installation Guide](/installation)
-- 👥 [Contributing Guidelines](/contributing)
+### Root files
 
+- `src/App.jsx` — main routing and application shell
+- `src/firebase-config.js` — Firebase initialization
+- `src/main.jsx` — app bootstrap
+- `src/index.css` / `src/App.css` — global styles
 
-# Project Structure
+### Page directories
 
-This guide provides a detailed overview of the DISC Workshop Series Website's architecture and file organization.
+- `src/pages/dashboard` — Dashboard summary page
+- `src/pages/contacts` — Contacts and group management
+- `src/pages/scheduledsends` — Schedule management and send history
+- `src/pages/Templates` — Template editing with rich text
+- `src/pages/ImageGallery` — image gallery for template assets
+- `src/pages/account` — login, signup, password reset, auth callback
 
-## Directory Structure
+### Shared code
 
-The project follows a modular structure optimized for Next.js development:
+- `src/common/components` — shared UI components for routes and layout
+- `src/common/layouts` — navigation layout and app shell
+- `src/common/contexts` — user and auth context
+- `src/components/ui` — UI primitives and custom editor extensions
 
-```
-.
-├── app/                    # Next.js app directory
-│   ├── about/             # About page routing
-│   ├── content/           # Content page routing
-│   ├── schedule/          # Schedule page routing
-│   ├── layout.tsx         # Root layout
-│   └── page.tsx           # Home page
-├── components/            # Reusable components
-│   ├── markdown/          # MDX components
-│   ├── ui/               # UI components
-│   └── contexts/         # React contexts
-├── contents/             # MDX content files
-│   ├── about/           # About section
-│   ├── content/         # Main content
-│   └── schedule/        # Schedule content
-├── lib/                  # Utilities
-├── public/              # Static assets
-└── styles/              # Global styles
-```
+## Backend structure
 
-## Key Directories Explained
+The backend is an Express server with route handlers, database access, Firebase verification, and scheduled processing.
 
-### App Directory (`/app`)
+### Key files
 
-The app directory contains the core Next.js application logic:
+- `src/server.js` — app bootstrapping, CORS, middleware, Swagger, route mounting, scheduler
+- `src/lambda.js` — Lambda adapter for serverless deployment
 
-- **about/**: About page routing and components
+### Config
 
-  - `layout.tsx`: Layout for about pages
-  - `page.tsx`: About page implementation
+- `src/config/database.js` — default PostgreSQL / Supabase connection
+- `src/config/firebase.js` — Firebase Admin SDK configuration
+- `src/config/swaggerConfig.js` — Swagger/OpenAPI settings
 
-- **content/**: Main content routing
+### Routes
 
-  - `[[...slug]]/page.tsx`: Dynamic routing for content
-  - `layout.tsx`: Content pages layout
+- `src/routes/authRoutes.js`
+- `src/routes/Contacts.js`
+- `src/routes/mailobjectRoutes.js`
+- `src/routes/schedulesendsRoutes.js`
+- `src/routes/signupLinksRoutes.js`
+- `src/routes/templatesRoutes.js`
+- `src/routes/sendmailRoutes.js`
+- `src/routes/imagebucketRoutes.js`
 
-- **schedule/**: Workshop schedule implementation
-  - Similar structure to content directory
+### Data access
 
-### Components Directory (`/components`)
+- `src/providers` — low-level database access and query helpers
+- `src/repositories` — repository layer exposing feature-specific operations
 
-Contains all reusable UI components:
+### Background scripts
 
-#### Markdown Components (`/components/markdown`)
+- `src/scripts/processScheduledSends.js` — processes scheduled send records and initiates delivery
 
-- `copy.tsx`: Copy button functionality
-- `image.tsx`: Image rendering
-- `link.tsx`: Link handling
-- `note.tsx`: Note blocks
-- `pre.tsx`: Code block handling
-- `stepper.tsx`: Step-by-step guides
+## Integration points
 
-#### UI Components (`/components/ui`)
+### Frontend → Backend
 
-- `accordion.tsx`: Collapsible sections
-- `avatar.tsx`: User avatars
-- `breadcrumb.tsx`: Navigation breadcrumbs
-- `button.tsx`: Button components
-- `dialog.tsx`: Modal dialogs
-- `dropdown-menu.tsx`: Dropdown menus
-- `sheet.tsx`: Slide-out panels
-- `tabs.tsx`: Tab navigation
+The frontend communicates with the backend using authenticated API requests. The main API base URL is configured by `VITE_BACKEND_URL`.
 
-#### Navigation Components
+### Authentication
 
-- `Leftbar.tsx`: Left sidebar navigation
-- `navbar.tsx`: Top navigation bar
-- `menu-bar.tsx`: Mobile menu
-- `pagination.tsx`: Content pagination
+- Frontend: Firebase Auth handles user sign-in and token generation
+- Backend: Firebase Admin verifies ID tokens before allowing protected routes
 
-#### Utility Components
+## Important configuration files
 
-- `search.tsx`: Search functionality
-- `theme-toggle.tsx`: Dark/light mode toggle
-- `toc.tsx`: Table of contents
+- `ywca/ywca-frontend/package.json` — frontend scripts and dependencies
+- `ywca/ywca-backend/package.json` — backend scripts and dependencies
+- `ywca/ywca-backend/.env` — backend runtime configuration (not committed)
+- `ywca/ywca-frontend/.env` — frontend runtime configuration for Firebase and API URL
 
-### Contents Directory (`/contents`)
+## How the app is organized by feature
 
-Organized content in MDX format:
+### Contacts
 
-```
-contents/
-├── about/
-│   └── index.mdx
-├── content/
-│   ├── assignments/
-│   │   └── [assignment-1...9]/
-│   ├── getting-started/
-│   │   ├── faq/
-│   │   ├── introduction/
-│   │   └── quick-start-guide/
-│   └── workshops/
-│       └── [workshop-1...9]/
-└── schedule/
-    └── index.mdx
-```
+Front-end: `src/pages/contacts/Contacts.jsx`
+Back-end: `src/routes/Contacts.js`, provider/repository files
 
-### Library Directory (`/lib`)
+### Templates
 
-Utility functions and configurations:
+Front-end: `src/pages/Templates/DraftTemplates.jsx`
+Back-end: `src/routes/templatesRoutes.js`, mailobject providers
 
-- `markdown.ts`: MDX processing utilities
-- `routes-config.ts`: Route configurations
-- `utils.ts`: General utilities
+### Scheduled Sends
 
-## Configuration Files
+Front-end: `src/pages/scheduledsends/ScheduledSends.jsx`
+Back-end: `src/routes/schedulesendsRoutes.js`, `src/scripts/processScheduledSends.js`
 
-Key configuration files include:
+### Dashboard
 
-- `next.config.mjs`: Next.js configuration
-- `tailwind.config.ts`: Tailwind CSS configuration
-- `tsconfig.json`: TypeScript configuration
-- `components.json`: UI component configurations
+Front-end: `src/pages/dashboard/Dashboard.jsx`
+Back-end: summary data is pulled from `scheduledsends` and template records
 
-## Static Assets
+## Notes on database support
 
-The `/public` directory contains:
+The backend defaults to PostgreSQL/Supabase using `DATABASE_URL` in `src/config/database.js`.
 
-- `disc-logo.png`: DISC logo
-- `public-og.png`: Open Graph image
-- Other static assets
+A MySQL/AWS RDS configuration is included as comments in the same file and can be enabled if needed.
 
-## Style System
+## Recommended edit points
 
-The project uses a combination of:
+- Add UI pages or helper components under `ywca-frontend/src/pages`
+- Keep shared layout and auth logic in `ywca-frontend/src/common`
+- Add new backend routes in `ywca-backend/src/routes`
+- Keep database access logic separate in `ywca-backend/src/providers` and `src/repositories`
 
-1. **Tailwind CSS**: Utility-first styling
-2. **Global CSS**: In `styles/globals.css`
-3. **Syntax Highlighting**: In `styles/syntax.css`
+## Deployment workflows
 
-## Best Practices
+- `ywca-frontend/.github/workflows/firebase-hosting-pull-request.yml` — builds the frontend on pull requests and deploys a preview to Firebase Hosting
+- `ywca-frontend/.github/workflows/firebase-hosting-merge.yml` — builds and deploys the frontend to the live Firebase project `ywca-disc` on `main`
+- `ywca-backend/.github/workflows/deploy.yml` — deploys the backend to AWS Lambda using Serverless on pushes to `main`
 
-When working with this structure:
+These workflows rely on GitHub secrets for Firebase and AWS credentials, so changes to deployment settings should be coordinated with repository administrators.
 
-1. **Component Organization**
+## Verification and maintenance
 
-   - Keep components focused and single-purpose
-   - Use proper naming conventions
-   - Group related components together
-
-2. **Content Management**
-
-   - Follow MDX file structure
-   - Keep content organized in appropriate directories
-   - Use consistent frontmatter
-
-3. **Code Organization**
-   - Follow TypeScript best practices
-   - Keep utility functions in `/lib`
-   - Use proper imports/exports
-
-## Further Reading
-
-- [Next.js App Router Documentation](https://nextjs.org/docs/app)
-- [MDX Documentation](https://mdxjs.com/)
-- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
-
-## Contributing
-
-When adding new components or content:
-
-1. Follow the existing directory structure
-2. Use appropriate naming conventions
-3. Update relevant documentation
-4. Add necessary tests
-5. Follow the established coding style
+- Use `npm run dev` locally for both frontend and backend
+- Use `http://localhost:5050/api-docs` to inspect the backend API contract
+- Keep environment configuration documented in `installation.md`

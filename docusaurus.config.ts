@@ -3,15 +3,15 @@ import type { Config } from "@docusaurus/types";
 import type * as Preset from "@docusaurus/preset-classic";
 
 const config: Config = {
-  title: "DISC Documentation",
-  tagline: "Documentation for DISC Projects",
+  title: "YWCA Email Tracker Documentation",
+  tagline: "Documentation for the YWCA Email Tracker application",
   favicon: "img/favicon.ico",
 
   url: "https://docs.discnu.org",
   baseUrl: "/",
 
   organizationName: "DISC-NU",
-  projectName: "DISC-Documentation-Website",
+  projectName: "YWCA-Email-Tracker-Docs",
 
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
@@ -59,7 +59,7 @@ const config: Config = {
       respectPrefersColorScheme: false,
     },
     navbar: {
-      title: "Develop & Innovate for Social Change",
+      title: "YWCA Email Tracker",
       logo: {
         alt: "DISC Logo",
         src: "img/disc-logo.png",
@@ -87,7 +87,7 @@ const config: Config = {
           title: "Documentation",
           items: [
             {
-              label: "Workshop Series",
+              label: "YWCA Email Tracker",
               to: "/",
             },
           ],

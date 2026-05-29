@@ -3,37 +3,46 @@ sidebar_position: 1
 slug: /
 ---
 
-# YWCA Email Tracker
+# YWCA Email Tracker Documentation
 
-Welcome to the documentation for the YWCA Email Tracker Website. This documentation will help you understand, use, and contribute to this platform.
+This documentation describes the YWCA Email Tracker application, a full-stack communication system for managing community outreach, email templates, contact groups, and scheduled sends.
 
-## Overview
-As one of their many community outreach programs, the YWCA partners with Evanston School District to provide programs such as an incentive program to set up bank accounts for their children.
+## What this system does
 
-Right now they are mostly manually sending out emails to parents on a list provided by the school district, but are struggling with engagement. They have found that there is interest from parents; however, parents are busy and often miss emails. In addition, their current method of sending emails out to parents on the mailing list is very manual, and sending out mail and keeping track of many different contact lists is challenging.
+The application provides a dashboard for the YWCA team to:
 
-To solve this problem, they would like a dashboard from which they could handle all of their communications. This would include an aggregated contact list and a place to store email templates, and then send them out to specific groups, on a schedule. Additionally, they have had success with communicating via text and would ideally like to be able to automate text message reminders.
+- manage an aggregated contact list of parents and guardians
+- create, edit, and save email templates
+- schedule email campaigns to contact groups or distribution lists
+- track send status and review historical sends
+- authenticate users with Firebase and secure backend APIs
 
-## Scenarios
-**Scenario 1: Fabiola checking on scheduled emails**
-Fabiola has an event planned for their children’s program. She wants to check how many families have received an email notification, as well as if they have opened the notification. She clicks on the dashboard page and filters for emails sent out in the past week. She notes the count of unread and read email notifications at the top of the page as well as other summary statistics, then looks through the table for more detailed information about receipt of the emails.
+## Why this project exists
 
-**Scenario 2: Kristin sending an automated email**
-Kristin hopes to send an automated email 2 days before any event they have for the children’s program. She opens the email templates page and creates a new template, with placeholders for the receiving end’s name. She clicks schedule and chooses the appropriate time and date to send the automated emails. She checks the dashboard to make sure these emails are pending to be sent and logs off. Kristin checks the dashboard on the day of the event to make sure the emails have been sent.
+YWCA outreach teams were manually sending email communications to families and tracking mailing lists in spreadsheets. That process is time-consuming and hard to scale. The YWCA Email Tracker replaces that workflow with:
 
-**Scenario 3: Marketing Team looking for contacts**
-The marketing team of YWCA is trying to collect data on response rates of parents in Evanston’s District 65. They want a list of all the contact information of parents that are available, email or phone number. Additionally, the team wants to review analytics of response rates and retention from automated messages. They use the website dashboard to look over analytics of sent messages and the contacts page to view all information. During the team meeting, the team is able to efficiently identify how to best keep parents updated on registering and keeping them in the loop of events. 
+- a centralized contact and group management interface
+- reusable email templates with rich text editing
+- scheduled email delivery to targeted recipient groups
+- a backend API that verifies Firebase-authenticated users and stores send data safely
 
-## Goals
-This project will support the following features:
+## Key user scenarios
 
-* We will deliver a product that achieves the features we listed before June 1st, 2026.
-* We will write documentation/metadata for how to reproduce and manage the technology that we create. This will be a detailed report that ensures it can be maintained for years to come.
+### Scenario 1: Monitor outreach from the dashboard
+A program coordinator opens the dashboard, checks how many sends are pending, and reviews the latest scheduled messages. They use the calendar and summary cards to understand timing and volume.
 
-## Non Goals
+### Scenario 2: Build a reusable email template
+A coordinator creates a new template in the Templates page, adds placeholders and images, and saves it for reuse in future campaigns.
 
-* We will not focus on text messaging automation.
-    * This will be a stretch goal, rather than a core focus of our project given the time restraints.
+### Scenario 3: Organize contacts and send to groups
+A staff member imports or adds contacts, organizes them into groups, and schedules a message to go out to the right audience before an event.
 
-## Flowchart
-https://www.figma.com/design/1CLHfAB76OPg5nopjPuVWq/YWCA?node-id=0-1&t=bg9Dcm9f3YEVloms-1 
+## System boundaries
+
+This documentation covers the YWCA project implementation in two repositories:
+
+- `ywca/ywca-frontend` — React frontend application built with Vite and Firebase authentication
+- `ywca/ywca-backend` — Express.js backend with SQL database connectivity, Swagger API docs, and scheduled send processing
+
+It does not cover third-party environment provisioning such as Firebase project creation, Supabase account setup, or production cloud deployment configurations.
+ 

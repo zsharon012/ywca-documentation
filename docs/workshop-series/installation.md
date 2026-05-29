@@ -6,155 +6,162 @@ sidebar_position: 2
 
 # Installation and Setup Guide
 
-This guide will walk you through the process of setting up the DISC Workshop Series Website locally for development.
+This guide helps you install and run the YWCA Email Tracker locally, covering both frontend and backend setup.
 
 ## Prerequisites
 
-Before you begin, ensure you have the following installed on your system:
+Install the following tools before you begin:
 
-- **Node.js** (LTS version 18.x or later)
-- **npm** (comes with Node.js) or **yarn**
-- **Git** for version control
-- A code editor (we recommend VS Code)
+- **Node.js** 18.x or later
+- **npm** (included with Node.js)
+- **Git**
+- **VS Code** or another code editor
 
 ## System Requirements
 
-- **Operating System**: Windows 10+, macOS, or Linux
-- **Memory**: 4GB RAM minimum (8GB recommended)
-- **Disk Space**: At least 1GB of free space
-- **Browser**: Chrome, Firefox, Safari, or Edge (latest versions)
+- **OS**: Windows 10+, macOS, or Linux
+- **RAM**: 4GB minimum, 8GB recommended
+- **Disk**: 2GB free
+- **Browser**: Latest Chrome, Firefox, Edge, or Safari
 
-## Installation Steps
+## Repository layout
 
-### 1. Clone the Repository
+The YWCA project is split into two applications:
 
-First, clone the project repository from GitHub:
+- `ywca/ywca-frontend` — the React frontend
+- `ywca/ywca-backend` — the Express backend
+
+## Step 1: Clone the repository
+
+From the workspace root, make sure you have the `ywca` folder available. If you need to clone it, use the repository URL provided by your project owner.
 
 ```bash
-git clone https://github.com/ethanpaneraa/disc-fall-2024-workshop-series-website.git
-cd disc-fall-2024-workshop-series-website
+git clone <your-ywca-repo-url>
+cd ywca
 ```
 
-### 2. Install Dependencies
-
-Install all required dependencies using npm:
+## Step 2: Install backend dependencies
 
 ```bash
+cd ywca-backend
 npm install
 ```
 
-Or if you prefer using yarn:
+## Step 3: Install frontend dependencies
 
 ```bash
-yarn install
+cd ../ywca-frontend
+npm install
 ```
 
-### 3. Start Development Server
+## Step 4: Configure environment variables
 
-Start the local development server:
+### Backend
+
+Copy the backend environment template if it is available, or create a `.env` file with the following values:
+
+```bash
+DATABASE_URL=<your-postgres-or-supabase-connection-string>
+FIREBASE_SERVICE_ACCOUNT_KEY=<firebase-service-account-json>
+PORT=5050
+FRONTEND_URL=http://localhost:5173
+FRONTEND_URL_DEV=http://localhost:5173
+FRONTEND_URL_PROD=https://ywca-disc.web.app
+```
+
+### Frontend
+
+Create a `.env` file under `ywca-frontend` and define these variables:
+
+```bash
+VITE_FIREBASE_API_KEY=<firebase-api-key>
+VITE_FIREBASE_AUTH_DOMAIN=<firebase-auth-domain>
+VITE_FIREBASE_PROJECT_ID=<firebase-project-id>
+VITE_FIREBASE_STORAGE_BUCKET=<firebase-storage-bucket>
+VITE_FIREBASE_MESSAGING_SENDER_ID=<firebase-messaging-sender-id>
+VITE_FIREBASE_APP_ID=<firebase-app-id>
+VITE_FIREBASE_MEASUREMENT_ID=<firebase-measurement-id>
+VITE_BACKEND_URL=http://localhost:5050
+```
+
+## Step 5: Run backend server
+
+From `ywca/ywca-backend`:
 
 ```bash
 npm run dev
 ```
 
-Or with yarn:
+The backend should start on port `5050` and expose its API and Swagger documentation.
+
+## Step 6: Run frontend app
+
+From `ywca/ywca-frontend`:
 
 ```bash
-yarn dev
-```
-
-The website should now be running at `http://localhost:3000`
-
-## Verification
-
-After installation, verify that everything is working correctly:
-
-1. Open your browser and navigate to `http://localhost:3000`
-2. Verify that the home page loads correctly
-3. Check that navigation works
-4. Confirm that MDX content renders properly
-
-## Common Issues and Solutions
-
-### Build Errors
-
-If you encounter build errors:
-
-1. Clear your node_modules and reinstall:
-
-```bash
-rm -rf node_modules
-npm install
-```
-
-2. Clear Next.js cache:
-
-```bash
-rm -rf .next
-```
-
-### Port Already in Use
-
-If port 3000 is already in use:
-
-1. Kill the process using the port:
-
-```bash
-lsof -i :3000
-kill -9 <PID>
-```
-
-2. Or start the server on a different port:
-
-```bash
-npm run dev -- -p 3001
-```
-
-### TypeScript Errors
-
-If you see TypeScript errors:
-
-1. Ensure TypeScript is installed:
-
-```bash
-npm install typescript @types/react @types/node --save-dev
-```
-
-2. Reset TypeScript configuration:
-
-```bash
-rm -rf tsconfig.json
 npm run dev
 ```
 
-## Development Tools
+The frontend should open at `http://localhost:5173`.
 
-We recommend installing these tools for better development experience:
+## Verifying the setup
 
-- **VS Code Extensions**:
+1. Open the frontend at `http://localhost:5173`
+2. Confirm the app launches and the login page appears
+3. Open the backend at `http://localhost:5050/health` to verify the API is healthy
+4. Open the Swagger docs at `http://localhost:5050/api-docs`
 
-  - ESLint
-  - Prettier
-  - Tailwind CSS IntelliSense
-  - MDX
-  - GitHub Copilot (optional)
+## Common issues
 
-- **Browser Extensions**:
-  - React Developer Tools
-  - Redux DevTools (if using Redux)
+### Backend fails to start
 
-## Next Steps
+- Verify `DATABASE_URL` is correct
+- Confirm your database allows external connections
+- Confirm `FIREBASE_SERVICE_ACCOUNT_KEY` is valid JSON
 
-Now that you have the project set up locally, you can:
+### Frontend cannot authenticate
 
-1. Review the [Project Structure](/project-structure) documentation
-2. Learn about [how to quickly start working on our project](/quick-start)
-3. Check out our [Contributing Guidelines](/contributing)
+- Confirm Firebase config values are correct
+- Confirm `VITE_BACKEND_URL` points to the running backend
+- Check browser console for CORS or token errors
 
-## Need Help?
+### Ports conflict
 
-If you encounter any issues during installation:
+- Default frontend port: `5173`
+- Default backend port: `5050`
+- Use another free port if needed and update `VITE_BACKEND_URL`
 
-- Create an issue on GitHub
-- Reach out to the development team:
-  - [Ethan Pineda](mailto:ethanpineda2025@u.northwestern.edu)
+## Useful commands
+
+### Frontend
+
+```bash
+cd ywca-frontend
+npm run dev
+npm run build
+npm run lint
+```
+
+### Backend
+
+```bash
+cd ywca-backend
+npm run dev
+npm run process-scheduled-sends
+npm run lint
+```
+
+## Deployment workflows
+
+The project also includes GitHub Actions workflows for continuous deployment.
+
+- **Frontend**: `ywca-frontend/.github/workflows/firebase-hosting-pull-request.yml` and `ywca-frontend/.github/workflows/firebase-hosting-merge.yml`
+  - Pull requests build the app and deploy a preview to Firebase Hosting
+  - Merges to `main` deploy the live site to the Firebase project `ywca-disc`
+  - These workflows use Firebase service account credentials stored in `FIREBASE_SERVICE_ACCOUNT_YWCA_DISC`
+
+- **Backend**: `ywca-backend/.github/workflows/deploy.yml`
+  - Deploys the backend to AWS Lambda using `serverless` on pushes to `main`
+  - It uses AWS and Serverless secrets such as `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `SERVERLESS_ACCESS_KEY`, `AWS_S3_BUCKET`, and region variables
+
+These CI workflows are separate from local `npm run dev` usage and are intended for production deployment.

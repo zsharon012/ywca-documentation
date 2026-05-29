@@ -3,199 +3,109 @@ id: quick-start
 sidebar_position: 3
 ---
 
-# Quick Start Guide
+# Quick Start
 
-Get started with the DISC Workshop Series Website quickly. This guide focuses on common development tasks and content management.
+This guide helps you run the YWCA Email Tracker and begin working with the application quickly.
 
-## Quick Setup
+## Run the app locally
 
-If you haven't installed the project yet, follow our [Installation Guide](/installation).
+### 1. Start the backend
 
-## Website Structure and Routes
-
-> **Future Improvement Note**: The current routing system requires manual updates to both the routes configuration and file structure. This process should be automated in future versions to reduce manual work and potential errors. Possible improvements include:
->
-> - Automatic route generation based on file structure
-> - CLI tool for creating new content with proper routing
-> - Validation system to ensure route and file structure consistency
-> - Dynamic route loading without manual configuration
-
-The website follows a specific routing structure defined in `lib/routes-config.ts`. Here's the main navigation structure:
-
-### Getting Started Section
-
-- Base Path: `/content/getting-started`
-- Main Route: `/introduction`
-
-### Workshops Section
-
-- Base Path: `/content/workshops`
-- Available Routes:
-  1. `/workshop-1` - UI/UX
-  2. `/workshop-2` - HTML & CSS
-  3. `/workshop-3` - VSCode & Git
-  4. `/workshop-4` - React Basics
-  5. `/workshop-5` - Better React
-  6. `/workshop-6` - Best React
-  7. `/workshop-7` - Backend Basics
-  8. `/workshop-8` - Complex Backends
-  9. `/workshop-9` - Bonus Topics
-
-### Assignments Section
-
-- Base Path: `/content/assignments`
-- Available Routes:
-  - `/project-overview` - Project Overview
-  1. `/assignment-1` - Figma
-  2. `/assignment-2` - HTML & CSS
-  3. `/assignment-3` - Git
-  4. `/assignment-4` - Basic React App
-  5. `/assignment-5` - Routing & Fetching
-  6. `/assignment-6` - Code Improvements
-  7. `/assignment-7` - Basic API
-  8. `/assignment-8` - Supabase
-  9. `/assignment-9` - Deploy & Bonus Feature
-
-## Working with Content
-
-### Adding New Content
-
-When adding new content, ensure it follows the routing structure defined above. Content should be placed in the corresponding directory under `/contents/`.
-
-Example for a new workshop page:
-
-```
-contents/
-└── content/
-    └── workshops/
-        └── workshop-1/
-            └── index.mdx
-```
-
-### MDX File Structure
-
-```mdx
----
-title: "Workshop 1: UI/UX"
-description: "Introduction to UI/UX Design Principles"
----
-
-# Workshop Content Here
-```
-
-### Route Configuration
-
-The routes are configured using TypeScript interfaces. If you need to add new routes, modify the `ROUTES` array in `lib/routes-config.ts`:
-
-```typescript
-export type EachRoute = {
-  title: string;
-  href: string;
-  basePath?: string;
-  noLink?: true;
-  items?: EachRoute[];
-};
-
-// Example of adding a new workshop
-const ROUTES: EachRoute[] = [
-  {
-    title: "Workshops",
-    href: "/workshops",
-    noLink: true,
-    basePath: "content",
-    items: [
-      { title: "1: UI/UX", href: "/workshop-1" },
-      // Add new workshop here
-    ],
-  },
-  // ... other routes
-];
-```
-
-## Development Workflow
-
-### Creating New Pages
-
-1. Add the route to `lib/routes-config.ts`
-2. Create the corresponding directory and `index.mdx` file
-3. Add your content using MDX format
-
-Example for adding a new workshop:
-
-1. Add to routes configuration:
-
-```typescript
-{
-  title: "10: Advanced Topics",
-  href: "/workshop-10"
-}
-```
-
-2. Create content file:
+From `ywca/ywca-backend`:
 
 ```bash
-mkdir -p contents/content/workshops/workshop-10
-touch contents/content/workshops/workshop-10/index.mdx
+npm run dev
 ```
 
-3. Add content to `index.mdx`:
+The API will start on port `5050` by default.
 
-```mdx
----
-title: "Workshop 10: Advanced Topics"
-description: "Advanced development concepts and practices"
----
+### 2. Start the frontend
 
-# Workshop Content
+From `ywca/ywca-frontend`:
+
+```bash
+npm run dev
 ```
 
-### Using Components in MDX
+Open the app at `http://localhost:5173`.
 
-Import and use components in your MDX files:
+### 3. Log in
 
-```mdx
-import MyComponent from "@/components/MyComponent";
+Use the Firebase login flow to sign in. If the app is configured for email/password auth, create a local account or sign in with the available authentication providers.
 
-<MyComponent />
+## Core app pages
+
+### Dashboard
+
+The Dashboard provides a quick summary of pending and sent communications. It includes:
+
+- a summary card for sent and pending scheduled emails
+- a calendar view for scheduling context
+- quick access to the main email workflows
+
+### Contacts
+
+The Contacts page is the central place for managing recipients and contact groups. It supports:
+
+- viewing all contacts in a sortable table
+- creating and editing recipient records
+- organizing recipients into named groups
+- bulk importing contacts via CSV
+
+### Templates
+
+The Templates page allows YWCA staff to build reusable email content. It includes:
+
+- rich text editing with formatting controls
+- image insertion from the image gallery
+- template preview and save
+- template search
+
+### Scheduled Sends
+
+The Scheduled Sends page lets users:
+
+- schedule email campaigns for later delivery
+- choose an email template and contact group
+- review send status (Scheduled vs Sent)
+- monitor send history
+
+## Backend features to check
+
+- `GET /health` — health check endpoint
+- `GET /api-docs` — Swagger API documentation
+- secure endpoint access via Firebase ID tokens
+- scheduled send processing in the backend
+
+## How to verify the system
+
+1. Start both backend and frontend
+2. Log in with Firebase credentials
+3. Create a contact group and add recipients
+4. Create or edit an email template
+5. Schedule a send and confirm it appears in Scheduled Sends
+6. Confirm backend processing for scheduled sends by checking the `sent` status and logs
+
+## Useful commands
+
+```bash
+# Backend
+cd ywca/ywca-backend
+npm run dev
+npm run process-scheduled-sends
+npm run lint
+
+# Frontend
+cd ywca/ywca-frontend
+npm run dev
+npm run build
+npm run lint
 ```
 
-### Common MDX Components Available
+## Notes
 
-- `Note`: For important callouts
-- `ImageComponent`: For optimized images
-- `CodeBlock`: For code snippets with syntax highlighting
-- `Stepper`: For step-by-step guides
+If you change `VITE_BACKEND_URL`, make sure the frontend uses the same backend endpoint. The backend also supports a Swagger UI for API exploration at `http://localhost:5050/api-docs`.
 
-Example usage:
+> Deployment note: frontend merges to `main` are deployed to Firebase Hosting via GitHub Actions, while backend pushes to `main` are deployed to AWS Lambda via a Serverless workflow.
 
-```mdx
-<Note type="info">Important information here</Note>
-
-<CodeBlock language="typescript">const example = "Hello World";</CodeBlock>
-```
-
-## Content Guidelines
-
-### Workshop Content Structure
-
-1. Introduction/Overview
-2. Learning Objectives
-3. Prerequisites
-4. Main Content
-5. Practice Exercises
-6. Additional Resources
-
-### Assignment Structure
-
-1. Assignment Overview
-2. Requirements
-3. Submission Guidelines
-4. Grading Criteria
-5. Resources/References
-
-## Next Steps
-
-After getting familiar with the basics:
-
-1. Review the complete [Project Structure](/project-structure)
 2. Check out our [Contributing Guidelines](/contributing)
