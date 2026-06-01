@@ -29,6 +29,27 @@ const workshopSidebar: SidebarsConfig = {
     },
     {
       type: "category",
+      label: "Frontend",
+      items: [
+        {
+          type: "doc",
+          id: "frontend-project-structure",
+          label: "Project Structure",
+        },
+        {
+          type: "doc",
+          id: "frontend-development",
+          label: "Development Guide",
+        },
+        {
+          type: "doc",
+          id: "frontend-deployment",
+          label: "Deployment",
+        },
+      ],
+    },
+    {
+      type: "category",
       label: "Backend",
       items: [
         {
