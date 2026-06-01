@@ -27,6 +27,22 @@ const workshopSidebar: SidebarsConfig = {
       id: "contributing",
       label: "Contributing",
     },
+    {
+      type: "category",
+      label: "Backend",
+      items: [
+        {
+        type: "doc",
+        id: "apiroutes",
+        label: "API routes",
+        },
+        {
+          type: "doc",
+          id: "databaseschema",
+          label: "Database Schema"
+        }
+      ]
+    }
   ],
 };
 
