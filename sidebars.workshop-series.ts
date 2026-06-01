@@ -53,9 +53,24 @@ const workshopSidebar: SidebarsConfig = {
       label: "Backend",
       items: [
         {
-        type: "doc",
-        id: "apiroutes",
-        label: "API routes",
+          type: "doc",
+          id: "backend-project-structure",
+          label: "Project Structure",
+        },
+        {
+          type: "doc",
+          id: "backend-development",
+          label: "Development Guide",
+        },
+        {
+          type: "doc",
+          id: "backend-deployment",
+          label: "Deployment",
+        },
+        {
+          type: "doc",
+          id: "apiroutes",
+          label: "API routes",
         },
         {
           type: "doc",
